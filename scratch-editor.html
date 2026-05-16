@@ -1,0 +1,242 @@
+<!-- Scratch Editor (White Theme) - Embedded Playground AI -->
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Trình Soạn Thảo Scratch - Embedded Playground AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&amp;family=Space+Grotesk:wght@300..700&amp;family=Inter:wght@300..700&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#3f5f91",
+                      "tertiary-container": "#ffd9dc",
+                      "surface-container": "#f0f4f9",
+                      "inverse-on-surface": "#f0f0f3",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#f9f9fc",
+                      "secondary-fixed-dim": "#dbb8ff",
+                      "on-secondary-fixed": "#29074a",
+                      "on-secondary-container": "#29074a",
+                      "on-tertiary-container": "#3b0613",
+                      "on-background": "#191c20",
+                      "outline": "#73777f",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#191c20",
+                      "secondary-container": "#efdbff",
+                      "surface-container-low": "#f7f9ff",
+                      "on-secondary-fixed-variant": "#573878",
+                      "on-primary-fixed-variant": "#254777",
+                      "secondary": "#755497",
+                      "on-tertiary-fixed-variant": "#73323d",
+                      "tertiary-fixed-dim": "#ffb2bb",
+                      "surface-container-highest": "#e1e2e8",
+                      "primary-fixed-dim": "#a8c8ff",
+                      "primary-container": "#d6e3ff",
+                      "on-error-container": "#410002",
+                      "background": "#ffffff",
+                      "tertiary-fixed": "#ffd9dc",
+                      "on-surface-variant": "#43474e",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-container-high": "#e7e8ee",
+                      "primary-fixed": "#d6e3ff",
+                      "surface": "#ffffff",
+                      "primary": "#3f5f91",
+                      "outline-variant": "#c3c6cf",
+                      "inverse-surface": "#2e3135",
+                      "on-primary-container": "#001b3e",
+                      "surface-variant": "#dee3eb",
+                      "on-primary-fixed": "#001b3c",
+                      "tertiary": "#904a57",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#3b0613",
+                      "surface-dim": "#d9dadd",
+                      "inverse-primary": "#a8c8ff",
+                      "secondary-fixed": "#efdbff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "md": "24px",
+                      "gutter": "20px",
+                      "base": "8px",
+                      "sidebar-width": "280px",
+                      "lg": "48px",
+                      "xl": "80px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "label-md": ["Space Grotesk"],
+                      "display-lg": ["Orbitron"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Orbitron"],
+                      "headline-lg": ["Orbitron"],
+                      "code-sm": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "code-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .block-shadow {
+            box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.1);
+        }
+        .glass-panel {
+            backdrop-filter: blur(8px) saturate(100%);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary/10 min-h-screen flex flex-col">
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-white/80 backdrop-blur-xl border-b border-black/5 shadow-sm">
+    <div class="flex items-center gap-base">
+        <a href="index.html" class="text-primary hover:opacity-80 transition-opacity">
+            <button class="material-symbols-outlined text-primary hover:bg-black/5 transition-colors duration-300 p-2 rounded-full active:scale-95" data-icon="arrow_back">arrow_back</button>
+        </a>
+        <h1 class="text-headline-md font-headline-md font-bold tracking-wider text-primary">Trình Soạn Thảo Scratch</h1>
+    </div>
+    <button class="material-symbols-outlined text-primary hover:bg-black/5 transition-colors duration-300 p-2 rounded-full active:scale-95" data-icon="smart_toy">smart_toy</button>
+</header>
+
+<main class="flex-1 mt-16 pb-24 overflow-hidden relative bg-white">
+    <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[120px]"></div>
+    </div>
+    
+    <div class="relative z-10 h-full p-4 flex flex-col gap-md">
+        <!-- Tabs -->
+        <div class="flex overflow-x-auto gap-sm pb-2 no-scrollbar">
+            <div class="bg-primary/10 px-4 py-2 rounded-xl flex items-center gap-2 whitespace-nowrap border border-primary/20 shadow-sm">
+                <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">widgets</span>
+                <span class="text-label-md font-label-md text-primary">Điều Khiển</span>
+            </div>
+            <div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 whitespace-nowrap border border-black/5">
+                <span class="material-symbols-outlined text-on-surface-variant">lightbulb</span>
+                <span class="text-label-md font-label-md text-on-surface-variant">LED</span>
+            </div>
+            <div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 whitespace-nowrap border border-black/5">
+                <span class="material-symbols-outlined text-on-surface-variant">timer</span>
+                <span class="text-label-md font-label-md text-on-surface-variant">Thời Gian</span>
+            </div>
+            <div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 whitespace-nowrap border border-black/5">
+                <span class="material-symbols-outlined text-on-surface-variant">variables</span>
+                <span class="text-label-md font-label-md text-on-surface-variant">Logic</span>
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="flex-1 relative border border-black/5 rounded-3xl bg-white shadow-inner overflow-hidden" style="background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
+            <!-- Block Stack -->
+            <div class="absolute top-8 left-8 space-y-0">
+                <!-- When Play Pressed -->
+                <div class="bg-[#FFAB19] p-4 rounded-t-2xl rounded-br-2xl w-64 block-shadow border-black/10 relative z-30">
+                    <div class="flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        <span class="text-label-md font-label-md text-white">Khi Nhấn Phát</span>
+                    </div>
+                </div>
+
+                <!-- Repeat Block -->
+                <div class="bg-[#FFD500] p-4 w-60 ml-4 block-shadow border-black/10 relative z-20 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-on-surface" style="font-variation-settings: 'FILL' 1;">repeat</span>
+                            <span class="text-label-md font-label-md text-on-surface">Lặp</span>
+                        </div>
+                        <div class="bg-white/80 px-2 py-1 rounded text-code-sm font-code-sm text-on-surface border border-black/5">10</div>
+                    </div>
+
+                    <!-- LED ON Block -->
+                    <div class="bg-[#4C97FF] p-4 w-52 block-shadow border-black/10 rounded-xl mt-2">
+                        <div class="flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">fluorescent</span>
+                            <span class="text-label-md font-label-md text-white">LED 13: BẬT</span>
+                        </div>
+                    </div>
+
+                    <!-- Delay Block -->
+                    <div class="bg-[#9966FF] p-4 w-52 block-shadow border-black/10 rounded-xl mt-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-sm">
+                                <span class="material-symbols-outlined text-white">hourglass_empty</span>
+                                <span class="text-label-md font-label-md text-white">Chờ</span>
+                            </div>
+                            <div class="bg-white/80 px-2 py-1 rounded text-code-sm font-code-sm text-on-surface border border-black/5">500ms</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="absolute bottom-4 right-4 flex flex-col gap-base items-end">
+                <div class="glass-panel p-3 rounded-2xl bg-white/90 border-black/10 shadow-lg">
+                    <img alt="AI Assistant" class="w-12 h-12 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZYfeed21l8MADcTfWV2C1Tzg8VYg_1uVTJnu6-__OtASaN3kLYNp6EJCPgk3nT6eKAl-AxIvfPpSWUeNcBTuMsL7mOzQefuAS2zo2NPxi94kDClrv761Yes5kYjs7WY7Ne6cz_DWjUGmNweowU6OVViL4hKr_SYaf0SGhZ-3ggvKk_3FU_LCuJOI0_NLyVUKeHW02oGYtnWRb0GjJq5iIg8Aa4IbOksZgC_DEOozds0H9ospVG22w93aoJdXKjf_IvNvYds6RMsE"/>
+                </div>
+                <div class="glass-panel p-3 rounded-2xl bg-white/90 border-black/10 shadow-lg flex gap-4">
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-primary" data-icon="zoom_in">zoom_in</button>
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-primary" data-icon="zoom_out">zoom_out</button>
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-primary" data-icon="center_focus_strong">center_focus_strong</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Play Button -->
+<button class="fixed bottom-24 right-6 w-16 h-16 rounded-2xl bg-[#4C97FF] text-white shadow-lg flex items-center justify-center z-50 transition-all duration-300 hover:scale-105 active:scale-90 border-b-4 border-blue-700">
+    <span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center px-4 pb-4 pt-2 bg-white/90 backdrop-blur-xl border-t border-black/5 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-2xl">
+    <a href="index.html" class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="memory">memory</span>
+        <span class="text-label-md font-label-md">Trang Chủ</span>
+    </a>
+    <a href="components.html" class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+        <span class="text-label-md font-label-md">Linh Kiện</span>
+    </a>
+    <a href="scratch-editor.html" class="flex flex-col items-center justify-center bg-primary/10 text-primary rounded-xl px-4 py-1 scale-95 duration-150">
+        <span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+        <span class="text-label-md font-label-md">Scratch</span>
+    </a>
+    <a href="ai-anatomy.html" class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="person">person</span>
+        <span class="text-label-md font-label-md">Dự Án</span>
+    </a>
+</nav>
+    <script src="ai-chat.js"></script>
+</body>
+</html>

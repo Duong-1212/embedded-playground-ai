@@ -1,23 +1,268 @@
+<!-- Trang Chủ & Thảo Luận AI (Light Mode) -->
 <!DOCTYPE html>
-<html lang="vi">
+<html class="light" lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Embedded Playground AI</title>
-  <meta http-equiv="refresh" content="0; url=/html-pages/index.html" />
-  <script>
-    // Fallback cho trường hợp meta refresh bị chặn
-    (function () {
-      try {
-        if (location.pathname === '/' || location.pathname.endsWith('\\index.html') || location.pathname === '') {
-          location.replace('/html-pages/index.html');
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Embedded Playground AI - Học Lập Trình Nhúng</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f8f9ff",
+                      "surface-tint": "#0060ac",
+                      "on-primary-container": "#003a6b",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#a4c9ff",
+                      "background": "#f8f9ff",
+                      "on-primary-fixed": "#001c39",
+                      "surface-container-high": "#dce9ff",
+                      "inverse-primary": "#a4c9ff",
+                      "tertiary-fixed": "#ffd8e7",
+                      "surface-container": "#e5eeff",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#7b41b4",
+                      "on-surface-variant": "#414751",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f8f9ff",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#cbdbf5",
+                      "primary-fixed": "#d4e3ff",
+                      "on-secondary-container": "#510c8a",
+                      "primary-container": "#60a5fa",
+                      "primary": "#0060ac",
+                      "secondary-fixed-dim": "#ddb8ff",
+                      "on-tertiary-fixed-variant": "#85145a",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-secondary-fixed-variant": "#62259b",
+                      "on-secondary-fixed": "#2c0051",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-fixed": "#3d0026",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#71004a",
+                      "on-primary": "#ffffff",
+                      "on-background": "#0b1c30",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary-fixed-dim": "#ffafd3",
+                      "secondary-container": "#c185fd",
+                      "tertiary-container": "#f875b9",
+                      "surface-container-low": "#eff4ff",
+                      "secondary-fixed": "#f0dbff",
+                      "outline": "#717783",
+                      "on-surface": "#0b1c30",
+                      "outline-variant": "#c1c7d3",
+                      "on-primary-fixed-variant": "#004883",
+                      "tertiary": "#a43073"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "xl": "64px",
+                      "margin-desktop": "32px",
+                      "lg": "40px",
+                      "margin-mobile": "16px",
+                      "sm": "12px",
+                      "base": "8px",
+                      "gutter": "20px",
+                      "md": "24px"
+              },
+              "fontFamily": {
+                      "label-sm": ["JetBrains Mono"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md-mobile": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-md-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+              }
+            },
+          },
         }
-      } catch (e) {}
-    })();
-  </script>
+    </script>
+    <style>
+        body {
+            background-color: #f8f9ff;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(0, 96, 172, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 96, 172, 0.1);
+        }
+        .chunky-button {
+            border-bottom-width: 4px;
+            transition: all 0.2s ease;
+        }
+        .chunky-button:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+        }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
 </head>
-<body>
-  <p>Đang chuyển tới <a href="/html-pages/index.html">trang chủ</a>...</p>
+<body class="font-body-md text-on-surface antialiased">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-md py-sm">
+    <div class="flex items-center gap-sm">
+        <span class="material-symbols-outlined text-primary text-headline-sm" data-icon="memory">memory</span>
+        <span class="font-headline-sm text-headline-sm tracking-tight text-primary">Embedded AI</span>
+    </div>
+    <div class="hidden md:flex gap-md items-center">
+        <nav class="flex gap-md">
+            <a class="font-label-md text-label-md text-primary font-bold" href="index.html">Trang Chủ</a>
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="ai-anatomy.html">Dự Án</a>
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="code-lab.html">Lập Trình</a>
+        </nav>
+        <div class="flex gap-sm">
+            <a class="px-md py-xs rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-all" href="auth.html">Đăng nhập</a>
+            <a class="px-md py-xs rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity" href="auth.html">Đăng ký</a>
+        </div>
+    </div>
+    <div class="md:hidden flex items-center">
+        <div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+            <img alt="User" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4c9za4YFl8dTOqR1-bdhaSBRFxW46HtqBM-37tV9szJGRZOLPnTlQu7Dax6C9Dycm5f_etdZZY917EwZcjsBdTU0TCdafhzxpYEmzQonAHWyW-GAdygSl4csLanMonbYQWHvyHTXz7Q1tQPeMUvq1IPy6PdsZgzIOWCK3Xl1xChG20oxAGbNOZCIm7fQ43Ysc3DowF_t7rSBcq1T_ad6fw7KQU_PhJD0TTHrxBBxWez_xhIVfZgPB1TeTctkq-xB5vABh2yPoGEU"/>
+        </div>
+    </div>
+</header>
+
+<main class="pt-xl pb-32">
+    <!-- Hero Section -->
+    <section class="relative min-h-[600px] flex flex-col items-center justify-center px-md text-center overflow-hidden">
+        <!-- Background Glows -->
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[150px]"></div>
+        
+        <div class="relative z-10 max-w-4xl">
+            <h1 class="font-display-lg text-display-lg text-on-surface mb-md leading-tight">
+                Học Lập Trình Nhúng <br/> <span class="text-primary">Cùng AI Thông Minh</span>
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-lg max-w-2xl mx-auto">
+                Khám phá thế giới phần cứng thông minh với sự hỗ trợ của trí tuệ nhân tạo. Tự động hóa ý tưởng, mô phỏng mạch điện và học tập không giới hạn.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-md justify-center">
+                <button class="chunky-button px-lg py-md rounded-xl bg-primary text-on-primary border-on-primary-fixed-variant font-headline-sm flex items-center justify-center gap-sm shadow-xl shadow-primary/20" onclick="window.location.href='qr.html'">
+                    Tạo QR để học tập
+                    <span class="material-symbols-outlined" data-icon="qr_code">qr_code</span>
+                </button>
+                <button class="glass-panel px-lg py-md rounded-xl text-on-surface font-headline-sm flex items-center justify-center gap-sm hover:bg-surface-container transition-all" onclick="window.location.href='index.html'">
+                    Xem trang học tập
+                    <span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Hero Illustration -->
+        <div class="mt-lg relative max-w-2xl mx-auto">
+            <img alt="AI Embedded Lab" class="rounded-3xl border border-outline-variant/30 shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDldbuw2GAZ2cLo6FHE4sWwXF1WLZbYwdfTMpOkFJsbTlJX47vZD2DKK-KNhoKw8-v4oi-UvIFl-vVcbDIJjXRTa2TFFi5aXUW9ICZ3CzF7b3upKrHT8FOe_0cajPVTWdWQeXApJ5BPEIq0vivCRIyN6aSHebnmbWEVWPQwDtD05A1A88a4J4FjP3yfxojjmYjCp0aD6OXKThUN9XttLTSJmQrGSeDvahhLX7k85IQCxPiGRsWXMqy7ffIBz_5t2nft7zFzvRug23U"/>
+        </div>
+    </section>
+
+    <!-- Tính năng nổi bật Section -->
+    <section class="px-md py-lg max-w-7xl mx-auto">
+        <div class="text-center mb-lg">
+            <h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Công Cụ Mạnh Mẽ</h2>
+            <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+            <!-- Card 1: Sơ đồ tư duy -->
+            <div class="bg-surface-container-lowest p-md rounded-2xl border border-outline-variant/50 hover:border-primary/50 transition-all shadow-sm group">
+                <div class="w-16 h-16 rounded-2xl bg-primary-container flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-on-primary-container text-3xl" data-icon="account_tree">account_tree</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm mb-sm text-on-surface">Sơ đồ tư duy</h3>
+                <p class="font-body-md text-on-surface-variant">Trực quan hóa luồng logic của hệ thống nhúng bằng sơ đồ thông minh được AI gợi ý.</p>
+            </div>
+
+            <!-- Card 2: Mô phỏng -->
+            <div class="bg-surface-container-lowest p-md rounded-2xl border border-outline-variant/50 hover:border-secondary/50 transition-all shadow-sm group">
+                <div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-on-secondary-container text-3xl" data-icon="simulation">simulation</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm mb-sm text-on-surface">Mô phỏng 3D</h3>
+                <p class="font-body-md text-on-surface-variant">Chạy code trực tiếp trên trình duyệt với phần cứng ảo. Không cần mua linh kiện thật để bắt đầu.</p>
+            </div>
+
+            <!-- Card 3: Trợ lý AI -->
+            <div class="bg-surface-container-lowest p-md rounded-2xl border border-outline-variant/50 hover:border-tertiary/50 transition-all shadow-sm group">
+                <div class="w-16 h-16 rounded-2xl bg-tertiary-container flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-on-tertiary-container text-3xl" data-icon="smart_toy" data-weight="fill" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm mb-sm text-on-surface">Trợ lý AI</h3>
+                <p class="font-body-md text-on-surface-variant">Giải đáp thắc mắc về code, phần cứng và sửa lỗi logic tức thì 24/7 cùng chuyên gia AI.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bàn bạc ý tưởng Section -->
+    <section class="px-md py-lg max-w-5xl mx-auto">
+        <div class="bg-surface-container-high p-lg rounded-3xl relative overflow-hidden shadow-sm">
+            <div class="absolute top-0 right-0 p-md opacity-10">
+                <span class="material-symbols-outlined text-[120px] text-primary" data-icon="lightbulb">lightbulb</span>
+            </div>
+            <div class="relative z-10">
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-md">Bàn bạc ý tưởng với AI</h2>
+                <p class="font-body-md text-on-surface-variant mb-lg max-w-xl">
+                    Mô tả dự án bạn muốn thực hiện, AI sẽ giúp bạn phác thảo linh kiện cần dùng và mã nguồn khởi tạo.
+                </p>
+                <div class="flex flex-col md:flex-row gap-sm items-center bg-surface-container-lowest p-sm rounded-2xl border border-outline-variant focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                    <input id="idea-ai-input" class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md px-md py-sm" placeholder="Ví dụ: Tôi muốn làm hệ thống tưới cây tự động với ESP32..." type="text"/>
+                    <button id="idea-ai-send-btn" class="w-full md:w-auto px-lg py-sm bg-secondary text-on-secondary rounded-xl font-label-md font-bold flex items-center justify-center gap-sm shadow-lg shadow-secondary/20 hover:opacity-90 transition-all">
+                        <span class="material-symbols-outlined text-xl" data-icon="send">send</span>
+                        Hỏi AI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-2xl border-t border-outline-variant flex justify-around items-center px-4 pb-4 pt-2">
+    <div class="flex flex-col items-center justify-center text-primary bg-primary-container/30 rounded-xl px-4 py-1">
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        <span class="font-label-sm text-label-sm">Trang Chủ</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+        <span class="font-label-sm text-label-sm">Dự Án</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+        <span class="font-label-sm text-label-sm">Công Cụ</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+        <span class="font-label-sm text-label-sm">Tài Khoản</span>
+    </div>
+</nav>
+    <script src="ai-chat.js"></script>
 </body>
 </html>
-

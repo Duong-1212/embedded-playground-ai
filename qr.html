@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tạo QR cho AI - Embedded Playground AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <!-- QR Code generator -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#f8f9ff",
+            "surface-tint": "#0060ac",
+            "on-primary-container": "#003a6b",
+            error: "#ba1a1a",
+            "primary-fixed-dim": "#a4c9ff",
+            background: "#f8f9ff",
+            "on-primary-fixed": "#001c39",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#a4c9ff",
+            "tertiary-fixed": "#ffd8e7",
+            "surface-container": "#e5eeff",
+            "surface-container-lowest": "#ffffff",
+            secondary: "#7b41b4",
+            "on-surface-variant": "#414751",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-error": "#93000a",
+            "surface-dim": "#cbdbf5",
+            "primary-fixed": "#d4e3ff",
+            "on-secondary-container": "#510c8a",
+            "primary-container": "#60a5fa",
+            primary: "#0060ac",
+            "on-secondary-container": "#510c8a",
+            "secondary-fixed-dim": "#ddb8ff",
+            "on-tertiary-fixed-variant": "#85145a",
+            "inverse-on-surface": "#eaf1ff",
+            "outline": "#717783",
+            "outline-variant": "#c1c7d3",
+            "on-surface": "#0b1c30",
+            "on-primary-fixed-variant": "#004883",
+            tertiary: "#a43073"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          }
+        },
+        fontFamily: {
+          "label-sm": ["JetBrains Mono"],
+          "label-md": ["JetBrains Mono"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "display-lg": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "body-lg": ["Inter"],
+          "code-sm": ["JetBrains Mono"]
+        },
+        fontSize: {
+          "label-md": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+          "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+          "headline-sm": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+          "code-sm": ["13px", { lineHeight: "1.5", fontWeight: "400" }]
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8f9ff;
+      background-image: radial-gradient(circle at 2px 2px, rgba(0, 96, 172, 0.05) 1px, transparent 0);
+      background-size: 24px 24px;
+      min-height: max(884px, 100dvh);
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 96, 172, 0.1);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-surface antialiased">
+  <header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-md py-sm">
+    <div class="flex items-center gap-sm">
+      <span class="material-symbols-outlined text-primary text-headline-sm" data-icon="qr_code">qr_code</span>
+      <span class="font-headline-sm text-headline-sm tracking-tight text-primary">Tạo QR</span>
+    </div>
+    <div class="flex gap-sm">
+      <a class="px-md py-xs rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-all" href="/html-pages/index.html">Về Trang Chủ</a>
+    </div>
+  </header>
+
+  <main class="pt-xl pb-32">
+    <section class="px-md py-lg max-w-5xl mx-auto">
+      <div class="bg-surface-container-high p-lg rounded-3xl relative overflow-hidden shadow-sm glass-panel">
+        <div class="relative z-10">
+          <h1 class="font-display-lg text-4xl text-on-surface mb-md">
+            Tạo QR Code dùng <span class="text-primary">URL public</span>
+          </h1>
+          <p class="font-body-md text-on-surface-variant mb-lg max-w-2xl">
+            Nhập URL public mà bạn muốn người khác quét vào. QR sẽ tự sinh trên thiết bị của bạn.
+            (Không dùng localhost trong URL nếu bạn muốn người dùng ở nơi khác truy cập.)
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-md items-start">
+            <div>
+              <label class="block text-sm font-medium text-on-surface-variant mb-xs" for="url-input">URL muốn mã QR trỏ tới</label>
+              <input
+                id="url-input"
+                class="w-full bg-white border border-outline-variant/60 rounded-xl py-sm px-md font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                placeholder="Ví dụ: https://tenmiencua-ban.com/html-pages/index.html"
+                type="url"
+                inputmode="url"
+                value=""
+              />
+
+              <div class="mt-md flex flex-col sm:flex-row gap-sm">
+                <button
+                  id="generate-btn"
+                  class="px-lg py-sm bg-primary text-on-primary rounded-xl font-headline-sm flex items-center justify-center gap-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+                >
+                  <span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+                  Tạo QR
+                </button>
+
+                <button
+                  id="copy-link-btn"
+                  class="px-lg py-sm bg-surface-container-lowest text-on-surface rounded-xl font-headline-sm flex items-center justify-center gap-sm border border-outline-variant/60 hover:bg-surface-container transition-all"
+                >
+                  <span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+                  Copy Link
+                </button>
+              </div>
+
+              <div id="hint" class="mt-md text-xs text-on-surface-variant">
+                Gợi ý: Nếu bạn deploy ở Vercel/Netlify, hãy dùng URL public đã deploy.
+              </div>
+
+              <div class="mt-md">
+                <label class="block text-sm font-medium text-on-surface-variant mb-xs">Tải QR</label>
+                <button
+                  id="download-btn"
+                  disabled
+                  class="w-full px-lg py-sm bg-surface-variant text-on-surface rounded-xl font-headline-sm flex items-center justify-center gap-sm border border-outline-variant/60 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span class="material-symbols-outlined" data-icon="download">download</span>
+                  Tải QR (PNG)
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-center justify-center">
+              <div id="qr-frame" class="w-full flex flex-col items-center justify-center p-lg rounded-3xl border border-outline-variant/50 bg-white">
+                <div id="qr-title" class="text-sm font-medium text-on-surface-variant mb-md">Chưa có QR</div>
+                <canvas id="qr-canvas" class="border border-outline-variant/20 rounded-xl" style="width: 280px; height: 280px;"></canvas>
+                <a id="qr-url-preview" class="mt-md text-sm text-primary hover:underline break-all hidden" href="#" target="_blank" rel="noopener"></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-lg text-xs text-on-surface-variant leading-relaxed">
+            Lưu ý triển khai: QR chỉ hoạt động nếu URL bạn nhập là public (ai cũng truy cập được). Nếu bạn nhập localhost, người khác sẽ không mở được.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const input = document.getElementById('url-input');
+    const generateBtn = document.getElementById('generate-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const copyBtn = document.getElementById('copy-link-btn');
+    const canvas = document.getElementById('qr-canvas');
+    const qrTitle = document.getElementById('qr-title');
+    const qrPreview = document.getElementById('qr-url-preview');
+
+    function isValidUrl(url) {
+      try {
+        const u = new URL(url);
+        return u.protocol === 'http:' || u.protocol === 'https:';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function renderQR(text) {
+      qrTitle.textContent = 'Đang tạo QR...';
+      qrPreview.classList.add('hidden');
+
+      const ctx = canvas.getContext('2d');
+      // Clear
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const size = 280;
+      // Ensure canvas has actual pixel size
+      canvas.width = size;
+      canvas.height = size;
+
+      await QRCode.toCanvas(canvas, text, {
+        errorCorrectionLevel: 'M',
+        margin: 2,
+        width: size,
+        color: {
+          dark: '#0b1c30',
+          light: '#ffffff'
+        }
+      });
+
+      qrTitle.textContent = 'QR sẵn sàng';
+      qrPreview.textContent = text;
+      qrPreview.href = text;
+      qrPreview.classList.remove('hidden');
+      downloadBtn.disabled = false;
+    }
+
+    function getInputUrl() {
+      return (input.value || '').trim();
+    }
+
+    generateBtn.addEventListener('click', async () => {
+      const url = getInputUrl();
+      if (!isValidUrl(url)) {
+        alert('Vui lòng nhập URL public hợp lệ (http/https).');
+        return;
+      }
+      try {
+        await renderQR(url);
+      } catch (e) {
+        console.error(e);
+        alert('Không thể tạo QR. Kiểm tra URL và thử lại.');
+      }
+    });
+
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') generateBtn.click();
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      const url = getInputUrl();
+      if (!isValidUrl(url)) return;
+
+      // Create a data URL PNG and download
+      const a = document.createElement('a');
+      a.download = 'qr-ai.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const url = getInputUrl();
+      if (!isValidUrl(url)) {
+        alert('Vui lòng nhập URL public hợp lệ trước khi copy.');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        copyBtn.innerHTML = '<span class="material-symbols-outlined" data-icon="check">check</span> Đã copy';
+        setTimeout(() => {
+          copyBtn.innerHTML = '<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span> Copy Link';
+        }, 1200);
+      } catch (e) {
+        alert('Trình duyệt không cho phép copy tự động. Hãy copy thủ công từ ô URL.');
+      }
+    });
+
+    // Auto-fill from query param: ?url=
+    (function initFromQuery() {
+      const params = new URLSearchParams(location.search);
+      const url = params.get('url');
+      if (url && isValidUrl(url)) {
+        input.value = url;
+        renderQR(url);
+      }
+    })();
+  </script>
+</body>
+</html>
+

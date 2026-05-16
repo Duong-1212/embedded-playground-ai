@@ -1,0 +1,391 @@
+<!-- Hardware Library (White Theme) - Embedded Playground AI -->
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Thư Viện Linh Kiện - Embedded Playground AI</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&amp;family=Inter:wght@400..700&amp;family=Space+Grotesk:wght@400..700&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#3f5f91",
+                        "tertiary-container": "#ffd9dc",
+                        "surface-container": "#f0f4f8",
+                        "inverse-on-surface": "#f0f4f8",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#dbb8ff",
+                        "on-secondary-fixed": "#29074a",
+                        "on-secondary-container": "#29074a",
+                        "on-tertiary-container": "#3b0613",
+                        "on-background": "#1a1c1e",
+                        "outline": "#73777f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1e",
+                        "secondary-container": "#efdbff",
+                        "surface-container-low": "#f7f9ff",
+                        "on-secondary-fixed-variant": "#573878",
+                        "on-primary-fixed-variant": "#254777",
+                        "secondary": "#744da4",
+                        "on-tertiary-fixed-variant": "#73323d",
+                        "tertiary-fixed-dim": "#ffb2bb",
+                        "surface-container-highest": "#e1e2e9",
+                        "primary-fixed-dim": "#a8c8ff",
+                        "primary-container": "#d6e3ff",
+                        "on-error-container": "#410002",
+                        "background": "#ffffff",
+                        "tertiary-fixed": "#ffd9dc",
+                        "on-surface-variant": "#43474e",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e7e8ee",
+                        "primary-fixed": "#d6e3ff",
+                        "surface": "#ffffff",
+                        "primary": "#3f5f91",
+                        "outline-variant": "#c3c6cf",
+                        "inverse-surface": "#2f3033",
+                        "on-primary-container": "#001b3e",
+                        "surface-variant": "#dfe2eb",
+                        "on-primary-fixed": "#001b3c",
+                        "tertiary": "#904a57",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#3b0613",
+                        "surface-dim": "#d9dadd",
+                        "inverse-primary": "#a8c8ff",
+                        "secondary-fixed": "#efdbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "24px",
+                        "gutter": "20px",
+                        "base": "8px",
+                        "sidebar-width": "280px",
+                        "lg": "48px",
+                        "xl": "80px",
+                        "sm": "12px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Space Grotesk"],
+                        "display-lg": ["Orbitron"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Orbitron"],
+                        "headline-lg": ["Orbitron"],
+                        "code-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "code-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .drop-glow-primary {
+            filter: drop-shadow(0 4px 6px rgba(63, 95, 145, 0.1));
+        }
+        .drop-glow-secondary {
+            filter: drop-shadow(0 4px 6px rgba(116, 77, 164, 0.1));
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 96, 172, 0.2);
+            border-color: #0060ac;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .drop-glow-secondary {
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container min-h-screen grid-bg">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-gutter h-16">
+    <div class="flex items-center gap-base">
+        <a href="index.html" class="text-primary hover:opacity-80 transition-opacity">
+            <span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+        </a>
+        <h1 class="text-headline-md font-headline-md font-bold tracking-wider text-primary">Linh Kiện</h1>
+    </div>
+    <div class="flex items-center gap-base">
+        <span class="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+    </div>
+</header>
+
+<main class="pt-24 pb-32 px-4 max-w-md mx-auto">
+    <!-- Search Bar Section -->
+    <section class="mb-8">
+        <div class="relative group">
+            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+            </div>
+            <input class="w-full h-14 pl-12 pr-4 rounded-xl bg-surface-container-lowest border border-black/5 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-body-md text-on-surface placeholder:text-outline/60 shadow-sm" placeholder="Tìm kiếm linh kiện..." type="text"/>
+        </div>
+    </section>
+
+    <!-- Components Grid -->
+    <section class="grid grid-cols-1 gap-6">
+        <!-- ESP32 Card -->
+        <div class="glass-panel p-5 rounded-xl flex flex-col gap-4 group hover:shadow-md transition-all duration-300 active:scale-95">
+            <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-primary-container/30 flex items-center justify-center drop-glow-primary">
+                    <span class="material-symbols-outlined text-primary text-3xl" data-icon="memory">memory</span>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-secondary-container/50 text-secondary text-label-md font-label-md">Vi Điều Khiển</span>
+            </div>
+            <div>
+                <h3 class="text-headline-md font-headline-md text-on-background mb-1">ESP32</h3>
+                <p class="text-on-surface-variant text-body-md leading-relaxed">Vi xử lý kép với Wi-Fi và Bluetooth tích hợp cho dự án IoT.</p>
+            </div>
+            <div class="aspect-video rounded-lg overflow-hidden border border-black/5 bg-surface-container-lowest">
+                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="ESP32 Microcontroller" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXCqVnhGGCOKlg5d8S3ylzxjADApx4SfZrGl54c6dF-GxIGtiT-tV0byU6B-hlc0HgHBwxJd0X2c3z0zxDlEKYHRaVvB5A1Gf9phjugZqP43lBQyAJgzTnvc_kwbSggL_QowQtNE9m6_pbX773iTmEuqQ8UJZJqnolV_tZ6XUIkM1QxTVHkoQEWk98FNBXzjTDraW2liLSNN5aj7wE6nlkSfjHPUfWvR9sZTkkJr7P-hIws1WANPjXfGLQhrRC73JiH9wdFu4qw2M"/>
+            </div>
+        </div>
+
+        <!-- Breadboard Card -->
+        <div class="glass-panel p-5 rounded-xl flex flex-col gap-4 group hover:shadow-md transition-all duration-300 active:scale-95">
+            <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-tertiary-container/30 flex items-center justify-center drop-glow-secondary">
+                    <span class="material-symbols-outlined text-tertiary text-3xl" data-icon="grid_view">grid_view</span>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-tertiary-container/20 text-tertiary text-label-md font-label-md">Nguyên Mẫu</span>
+            </div>
+            <div>
+                <h3 class="text-headline-md font-headline-md text-on-background mb-1">Breadboard</h3>
+                <p class="text-on-surface-variant text-body-md leading-relaxed">Bảng nguyên mẫu không cần hàn để xây dựng và kiểm tra mạch tạm thời.</p>
+            </div>
+            <div class="aspect-video rounded-lg overflow-hidden border border-black/5 bg-surface-container-lowest">
+                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Breadboard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHHhgrnEVD2dQCQzlGc-eqicgUzkTFLa54TqIyMQR6kPZHspQr3j5bvZ8F0GqxyIN2xXgr7wvjW8OXrOeNEaMZDLTLd6hCx5UoaVgU9zhEX_5UceZ-EXGZiabCS0CAHp_ZKHv0GCZTkdC-0F4qgDfXdsa71O8QoPi8AtJyaTgIIMTPTwYBrlwUuyVleJPeB7j-L9JMALDfEYgce_RyA0QYoS_hHMUHxhC2PMeNiX1NwpQkolfweVs8U_2VoNhax96N9bWnsFW_tHM"/>
+            </div>
+        </div>
+
+        <!-- Ultrasonic Sensor Card -->
+        <div class="glass-panel p-5 rounded-xl flex flex-col gap-4 group hover:shadow-md transition-all duration-300 active:scale-95">
+            <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-primary-container/30 flex items-center justify-center drop-glow-primary">
+                    <span class="material-symbols-outlined text-primary text-3xl" data-icon="sensors">sensors</span>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-secondary-container/50 text-secondary text-label-md font-label-md">Cảm Biến</span>
+            </div>
+            <div>
+                <h3 class="text-headline-md font-headline-md text-on-background mb-1">Cảm Biến Siêu Âm</h3>
+                <p class="text-on-surface-variant text-body-md leading-relaxed">Mô-đun HC-SR04 để đo khoảng cách không tiếp xúc bằng sóng âm.</p>
+            </div>
+            <div class="aspect-video rounded-lg overflow-hidden border border-black/5 bg-surface-container-lowest">
+                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Ultrasonic Sensor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_qHV3wOO5Ozso5gF6YsrYVuA4ejX3Jc242DORd3eeB5vnzr1KDbsO15qQOgln2gRzKLYuCxLk8hGJhMEJMG1Kzp6Gi630emYP6WEXFzOk_re21AuQayUdl9ZAGJmSMFteRU6LOXvkgyMQtUBnyiudRRyoHBPQQnDh4zmtuXDUjcH9i1-IOZU5pQEyntBFXZtn40DDhh23_tN54sUInka_rk4eMpnaD-Z0wr2Kv9PLBOX9i-bvIFJUkoeYXVxdz9TAyvZ63nlTDsE"/>
+            </div>
+        </div>
+
+        <!-- Servo Motor Card -->
+        <div class="glass-panel p-5 rounded-xl flex flex-col gap-4 group hover:shadow-md transition-all duration-300 active:scale-95">
+            <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-secondary-container/30 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-3xl" data-icon="settings_motion_mode">settings_motion_mode</span>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-label-md font-label-md">Cơ Cấu</span>
+            </div>
+            <div>
+                <h3 class="text-headline-md font-headline-md text-on-background mb-1">Servo Motor</h3>
+                <p class="text-on-surface-variant text-body-md leading-relaxed">Servo vi-mô SG90 để điều khiển góc chính xác trong dự án robot.</p>
+            </div>
+            <div class="aspect-video rounded-lg overflow-hidden border border-black/5 bg-surface-container-lowest">
+                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Servo Motor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtOfqq2od9oCGaAJuU8UgHzm8OneAW-4i9WxoMSydUzZY7s9amlWwxEn8eS550RdePL3AOgl6Zqg_AKiM7PjTZny3RqVsDpziP2486W-zw9mLUzTQfrWwhys6OXCKILXIcAYIN_0VTClktZQD3TfhFFyCQSnDrhVGtxg5hPdTMGh9ls6AAv3qt2wXBwPWrQXrqq6XR051U2b4w1bPuKj5sJSkZNDIx6UPlptLkTeHiiuoV96k8-RX5pI81FVsppWY6EOO3DEm7Q4k"/>
+            </div>
+        </div>
+
+        <!-- RGB LED Card -->
+        <div class="glass-panel p-5 rounded-xl flex flex-col gap-4 group hover:shadow-md transition-all duration-300 active:scale-95">
+            <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-tertiary-container/30 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-tertiary text-3xl" data-icon="lightbulb">lightbulb</span>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-tertiary-container/20 text-tertiary text-label-md font-label-md">Đầu Ra</span>
+            </div>
+            <div>
+                <h3 class="text-headline-md font-headline-md text-on-background mb-1">LED RGB</h3>
+                <p class="text-on-surface-variant text-body-md leading-relaxed">Nguồn sáng đa màu có thể tạo ra bất kỳ sắc thái nào thông qua PWM.</p>
+            </div>
+            <div class="aspect-video rounded-lg overflow-hidden border border-black/5 bg-surface-container-lowest">
+                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="RGB LED" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg9l2wC96GaxLu2BtEiQKpFtbUIX2GRnrEADqhDZg9Ae8OszxYOwEcP6VFQMv0I7a9iYxLF93hJHeWHROypfoqcv6u_RBIX5_GHY1OsTPaGjQIBmgJi7f7_5AQ_UjlcC8Dx3C5eqgHz-aKghtxjfyVa6AddnZp29ZBZMhqC0rV39T8tb2_xZMcoF3jhQr0fRhzuM5DqtBHULA-j1J-XZ3ycj3Z8T1BnsXMfMq8vM1P26up6vV0oRU_DbHH8_Br9sIT5iZx6C46WzU"/>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="my-12 px-6">
+        <div class="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+    </div>
+
+    <!-- Real-world Applications Section -->
+    <section class="px-6 mb-32">
+        <div class="mb-8">
+            <h2 class="text-display-lg font-display-lg text-primary mb-2">Ứng Dụng Thực Tế 🚀</h2>
+            <p class="text-body-lg text-on-surface-variant">Khám phá các dự án STEM tương tác - Simulators giống Wokwi với code thật, mạch trực quan, và animation</p>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Smart Trash Project -->
+            <div class="project-card group cursor-pointer" onclick="window.location.href='projects-simulator.html?project=smart-trash'">
+                <div class="relative h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden rounded-t-xl">
+                    <div class="text-6xl group-hover:scale-110 transition-transform duration-300">🗑️</div>
+                    <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-blue-600">NEW</div>
+                </div>
+                <div class="glass-panel rounded-b-xl p-5">
+                    <h3 class="text-headline-md font-headline-md text-on-background mb-2">Thùng Rác Thông Minh</h3>
+                    <p class="text-on-surface-variant text-body-md mb-4">Cảm biến siêu âm tự động mở nắp khi phát hiện tay</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">Arduino UNO</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-semibold">Servo</span>
+                        <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-semibold">HC-SR04</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-black/5 flex items-center justify-between">
+                        <span class="text-label-md text-on-surface-variant">Difficulty:</span>
+                        <div class="flex gap-1">
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                            <span class="w-6 h-6 rounded-full bg-gray-300"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Home Project -->
+            <div class="project-card group cursor-pointer" onclick="window.location.href='projects-simulator.html?project=smart-home'">
+                <div class="relative h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center overflow-hidden rounded-t-xl">
+                    <div class="text-6xl group-hover:scale-110 transition-transform duration-300">🏠</div>
+                    <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-purple-600">NEW</div>
+                </div>
+                <div class="glass-panel rounded-b-xl p-5">
+                    <h3 class="text-headline-md font-headline-md text-on-background mb-2">Nhà Thông Minh Chống Trộm</h3>
+                    <p class="text-on-surface-variant text-body-md mb-4">Phát hiện chuyển động và kích hoạt báo động tự động</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-semibold">ESP32</span>
+                        <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-semibold">PIR Sensor</span>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-semibold">Buzzer</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-black/5 flex items-center justify-between">
+                        <span class="text-label-md text-on-surface-variant">Difficulty:</span>
+                        <div class="flex gap-1">
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Light Control Project -->
+            <div class="project-card group cursor-pointer" onclick="window.location.href='projects-simulator.html?project=light-control'">
+                <div class="relative h-48 bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center overflow-hidden rounded-t-xl">
+                    <div class="text-6xl group-hover:scale-110 transition-transform duration-300">💡</div>
+                    <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-yellow-600">NEW</div>
+                </div>
+                <div class="glass-panel rounded-b-xl p-5">
+                    <h3 class="text-headline-md font-headline-md text-on-background mb-2">Điều Khiển Đèn Tự Động</h3>
+                    <p class="text-on-surface-variant text-body-md mb-4">Cảm biến ánh sáng LDR điều chỉnh độ sáng LED tự động</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">Arduino</span>
+                        <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-semibold">LDR</span>
+                        <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-semibold">LED PWM</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-black/5 flex items-center justify-between">
+                        <span class="text-label-md text-on-surface-variant">Difficulty:</span>
+                        <div class="flex gap-1">
+                            <span class="w-6 h-6 rounded-full bg-yellow-400"></span>
+                            <span class="w-6 h-6 rounded-full bg-gray-300"></span>
+                            <span class="w-6 h-6 rounded-full bg-gray-300"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="mt-8 glass-panel p-8 rounded-xl text-center bg-gradient-to-r from-primary/10 to-secondary/10">
+            <h3 class="text-headline-lg font-headline-lg text-primary mb-2">Sẵn Sàng Khám Phá?</h3>
+            <p class="text-body-lg text-on-surface-variant mb-4">Nhấp vào các dự án trên để mở Wokwi-style Simulator</p>
+            <p class="text-label-md text-on-surface-variant">✨ Mạch trực quan + Code thật + Animation + AI Giải thích</p>
+        </div>
+    </section>
+</main>
+
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-white/90 backdrop-blur-2xl border-t border-black/5 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] rounded-t-xl">
+    <a href="index.html" class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="memory">memory</span>
+        <span class="text-label-md font-label-md">Trang Chủ</span>
+    </a>
+    <a href="components.html" class="flex flex-col items-center justify-center bg-primary/10 text-primary rounded-xl px-4 py-1 scale-90 duration-150">
+        <span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+        <span class="text-label-md font-label-md">Linh Kiện</span>
+    </a>
+    <a href="code-lab.html" class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+        <span class="text-label-md font-label-md">Code</span>
+    </a>
+    <a href="ai-anatomy.html" class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all duration-300">
+        <span class="material-symbols-outlined" data-icon="person">person</span>
+        <span class="text-label-md font-label-md">Dự Án</span>
+    </a>
+</nav>
+    <script src="ai-chat.js"></script>
+</body>
+</html>

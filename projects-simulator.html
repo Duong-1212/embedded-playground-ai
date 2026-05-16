@@ -1,0 +1,869 @@
+<!-- Projects STEM Simulator (Wokwi + Scratch Style) -->
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>STEM Projects Simulator - Embedded Playground AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        :root {
+            --primary: #0060ac;
+            --primary-container: #60a5fa;
+            --secondary: #7b41b4;
+            --tertiary: #a43073;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 96, 172, 0.05);
+        }
+
+        /* Glow effects */
+        .glow-primary { filter: drop-shadow(0 4px 12px rgba(0, 96, 172, 0.3)); }
+        .glow-led { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
+        .glow-blue { filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.6)); }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 25px rgba(255, 0, 0, 1)); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes servo-rotate {
+            0% { transform: rotate(-90deg); }
+            50% { transform: rotate(90deg); }
+            100% { transform: rotate(-90deg); }
+        }
+
+        @keyframes wire-flow {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -100; }
+        }
+
+        @keyframes lid-open {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-120deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .pulse-animation { animation: pulse 1.5s infinite; }
+        .glow-animation { animation: glow 1.5s infinite; }
+        .float-animation { animation: float 3s infinite; }
+        .servo-animation { animation: servo-rotate 2s infinite; }
+        .wire-animation { animation: wire-flow 3s linear infinite; }
+
+        /* Component cards */
+        .component-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 96, 172, 0.2);
+        }
+
+        .component-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 96, 172, 0.5);
+        }
+
+        /* Code editor */
+        .code-editor {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-line { display: flex; align-items: center; }
+        .code-number {
+            color: #858585;
+            width: 40px;
+            text-align: right;
+            padding-right: 15px;
+            border-right: 1px solid #3e3e3e;
+            user-select: none;
+        }
+
+        .syntax-keyword { color: #569cd6; font-weight: bold; }
+        .syntax-function { color: #dcdcaa; }
+        .syntax-string { color: #ce9178; }
+        .syntax-comment { color: #6a9955; font-style: italic; }
+        .syntax-number { color: #b5cea8; }
+
+        /* Circuit canvas */
+        .circuit-canvas {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border: 2px solid rgba(0, 96, 172, 0.2);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Project cards grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 24px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 96, 172, 0.2);
+            border-color: var(--primary);
+        }
+
+        .project-card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #0060ac 0%, #60a5fa 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .project-card-body {
+            padding: 20px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 50;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 95vw;
+            height: 95vh;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* LED Animation */
+        .led {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #111;
+            position: relative;
+        }
+
+        .led.on {
+            background: #ff0000;
+            animation: glow-animation 1s infinite;
+        }
+
+        /* Trash can SVG */
+        .trash-can {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Home SVG */
+        .house-model {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* AI Assistant bubble */
+        .ai-bubble {
+            position: fixed;
+            bottom-20;
+            right-20;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 96, 172, 0.4);
+            z-index: 40;
+            animation: float-animation 3s infinite;
+        }
+
+        .ai-bubble span {
+            color: white;
+            font-size: 40px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0060ac;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #004a8d;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+
+<!-- Header -->
+<header class="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-3xl">precision_manufacturing</span>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">STEM Projects</h1>
+                <p class="text-sm text-gray-600">Interactive Wokwi-style Simulator</p>
+            </div>
+        </div>
+        <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Quay lại</span>
+        </a>
+    </div>
+</header>
+
+<!-- Projects Grid -->
+<main class="max-w-7xl mx-auto">
+    <div class="project-grid">
+        <!-- Project 1: Smart Trash -->
+        <div class="project-card" onclick="openProjectModal('smart-trash')">
+            <div class="project-card-image">🗑️</div>
+            <div class="project-card-body">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Thùng Rác Thông Minh</h3>
+                <p class="text-sm text-gray-600 mb-3">Cảm biến siêu âm + Servo tự động mở nắp</p>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">Arduino UNO</span>
+                    <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-semibold">Servo</span>
+                    <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-semibold">Sensor</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2: Smart Home -->
+        <div class="project-card" onclick="openProjectModal('smart-home')">
+            <div class="project-card-image">🏠</div>
+            <div class="project-card-body">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Nhà Thông Minh Chống Trộm</h3>
+                <p class="text-sm text-gray-600 mb-3">PIR Sensor + Alarm & LED cảnh báo</p>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">ESP32</span>
+                    <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-semibold">PIR</span>
+                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-semibold">Buzzer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 3: Light Control -->
+        <div class="project-card" onclick="openProjectModal('light-control')">
+            <div class="project-card-image">💡</div>
+            <div class="project-card-body">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Điều Khiển Đèn Tự Động</h3>
+                <p class="text-sm text-gray-600 mb-3">Cảm biến ánh sáng LDR + PWM LED</p>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">Arduino</span>
+                    <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-semibold">LDR</span>
+                    <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-semibold">LED</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Project Simulator Modal -->
+<div id="projectModal" class="modal-overlay">
+    <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-primary to-primary-container text-white p-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span id="modalIcon" class="text-4xl">🗑️</span>
+                <div>
+                    <h2 id="modalTitle" class="text-2xl font-bold">Thùng Rác Thông Minh</h2>
+                    <p id="modalSubtitle" class="text-white/80">Interactive STEM Project Simulator</p>
+                </div>
+            </div>
+            <button onclick="closeProjectModal()" class="text-white hover:bg-white/20 p-2 rounded-lg transition-all">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Modal Body: 4-Panel Layout -->
+        <div class="flex-1 overflow-hidden flex gap-4 p-6">
+
+            <!-- LEFT PANEL: Components -->
+            <div class="w-72 flex flex-col gap-4 overflow-y-auto">
+                <div class="glass-panel p-4 rounded-lg">
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">build</span>
+                        Linh Kiện (Components)
+                    </h3>
+                    <div id="componentsList" class="space-y-3">
+                        <!-- Components will be populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="glass-panel p-4 rounded-lg">
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">assignment</span>
+                        Hướng Dẫn Nối Dây
+                    </h3>
+                    <ol id="instructionsList" class="space-y-2 text-sm text-gray-700">
+                        <!-- Instructions will be populated by JS -->
+                    </ol>
+                </div>
+            </div>
+
+            <!-- CENTER PANEL: Circuit Simulator -->
+            <div class="flex-1 flex flex-col gap-4">
+                <div class="glass-panel p-6 rounded-lg flex-1 circuit-canvas">
+                    <div class="h-full flex items-center justify-center">
+                        <div id="simulatorContent" class="text-center">
+                            <!-- Simulator content will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animated Model -->
+                <div class="glass-panel p-4 rounded-lg h-48">
+                    <h3 class="font-bold text-gray-900 mb-3">Mô Hình Hoạt Động</h3>
+                    <div id="animatedModel" class="h-full flex items-center justify-center">
+                        <!-- Model animation will be here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: Code + AI -->
+            <div class="w-96 flex flex-col gap-4 overflow-y-auto">
+                <!-- Code Editor -->
+                <div class="glass-panel p-4 rounded-lg flex-1 overflow-hidden flex flex-col">
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">code</span>
+                        Arduino C++ Code
+                    </h3>
+                    <div id="codeEditor" class="code-editor flex-1 overflow-y-auto p-4 text-sm">
+                        <!-- Code will be populated by JS -->
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                        <button onclick="runSimulation()" class="flex-1 bg-primary text-white py-2 rounded-lg hover:bg-blue-700 transition-all font-semibold text-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">play_arrow</span>
+                            Run
+                        </button>
+                        <button onclick="copyCode()" class="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg hover:bg-gray-300 transition-all font-semibold text-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">content_copy</span>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Helper -->
+                <div class="glass-panel p-4 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10">
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">psychology</span>
+                        AI Giải Thích
+                    </h3>
+                    <div id="aiExplanation" class="text-sm text-gray-700 leading-relaxed space-y-2">
+                        <!-- AI explanation will be here -->
+                    </div>
+                    <button onclick="askAI()" class="w-full mt-3 bg-secondary text-white py-2 rounded-lg hover:bg-purple-700 transition-all font-semibold text-sm">
+                        ? Hỏi AI
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- AI Chat Widget -->
+<script src="ai-chat.js"></script>
+
+<script>
+// Project Data
+const projectsData = {
+    'smart-trash': {
+        title: 'Thùng Rác Thông Minh',
+        subtitle: 'Smart Trash Bin with Motion Detection',
+        icon: '🗑️',
+        components: [
+            { name: 'Arduino UNO', desc: 'Microcontroller', icon: '📱', color: 'blue' },
+            { name: 'HC-SR04 Ultrasonic', desc: '2-40cm Range Sensor', icon: '📡', color: 'orange' },
+            { name: 'Servo Motor', desc: 'Lid Control', icon: '⚙️', color: 'green' },
+            { name: 'LED Red', desc: 'Status Indicator', icon: '🔴', color: 'red' },
+            { name: 'Resistor 220Ω', desc: 'LED Protection', icon: '⏮️', color: 'yellow' },
+            { name: 'Breadboard', desc: 'Connection Board', icon: '🔌', color: 'gray' }
+        ],
+        instructions: [
+            'Nối VCC cảm biến → 5V Arduino',
+            'Nối GND cảm biến → GND Arduino',
+            'Nối TRIG → Pin 8, ECHO → Pin 9',
+            'Nối Servo Signal → Pin 10 (PWM)',
+            'Nối LED → Pin 13 với resistor',
+            'Upload code và thử nghiệm'
+        ],
+        code: `#include <Servo.h>
+
+const int trigPin = 8;
+const int echoPin = 9;
+const int servoPin = 10;
+const int ledPin = 13;
+
+Servo lid;
+long duration, distance;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  lid.attach(servoPin);
+  lid.write(0);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Ultrasonic measurement
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration * 0.034) / 2;
+  
+  Serial.print("Distance: ");
+  Serial.println(distance);
+  
+  // If hand detected (< 10cm)
+  if(distance < 10) {
+    digitalWrite(ledPin, HIGH);
+    lid.write(120);  // Open
+    delay(3000);
+  } else {
+    digitalWrite(ledPin, LOW);
+    lid.write(0);    // Close
+  }
+  
+  delay(100);
+}`,
+        ai_explanation: 'Dự án này sử dụng cảm biến siêu âm để phát hiện khi tay tiближ. Khi phát hiện được, servo motor sẽ mở nắp thùng rác. LED chỉ báo trạng thái hoạt động. Đây là ứng dụng thực tế của IoT trong nhà thông minh!'
+    },
+    'smart-home': {
+        title: 'Nhà Thông Minh Chống Trộm',
+        subtitle: 'Smart Home Alarm System',
+        icon: '🏠',
+        components: [
+            { name: 'ESP32', desc: 'WiFi Microcontroller', icon: '📡', color: 'blue' },
+            { name: 'PIR Motion Sensor', desc: 'Motion Detection', icon: '👁️', color: 'purple' },
+            { name: 'Buzzer', desc: 'Alarm Speaker', icon: '🔔', color: 'red' },
+            { name: 'LED RGB', desc: 'Status Display', icon: '🌈', color: 'green' },
+            { name: 'Button', desc: 'Manual Control', icon: '🔘', color: 'gray' },
+            { name: 'Relay', desc: 'Switch Control', icon: '⚡', color: 'yellow' }
+        ],
+        instructions: [
+            'Nối PIR Sensor → GPIO 34 (Input)',
+            'Nối Buzzer → GPIO 25 (PWM)',
+            'Nối LED RGB → GPIO 26, 27, 14',
+            'Nối Button → GPIO 35',
+            'Nối Relay → GPIO 32',
+            'Configure WiFi và test hệ thống'
+        ],
+        code: `const int pirPin = 34;
+const int buzzerPin = 25;
+const int buttonPin = 35;
+const int redLED = 26;
+const int greenLED = 27;
+
+bool alarmActive = false;
+
+void setup() {
+  pinMode(pirPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+  pinMode(redLED, OUTPUT);
+  pinMode(greenLED, OUTPUT);
+  Serial.begin(115200);
+  digitalWrite(greenLED, HIGH);
+}
+
+void loop() {
+  // Read motion sensor
+  int motion = digitalRead(pirPin);
+  int button = digitalRead(buttonPin);
+  
+  if(button == HIGH) {
+    alarmActive = !alarmActive;
+    delay(500);
+  }
+  
+  if(alarmActive && motion == HIGH) {
+    // Motion detected!
+    digitalWrite(redLED, HIGH);
+    digitalWrite(greenLED, LOW);
+    tone(buzzerPin, 1000);
+    delay(200);
+    noTone(buzzerPin);
+    delay(200);
+    Serial.println("ALARM: Motion detected!");
+  } else {
+    digitalWrite(redLED, LOW);
+    digitalWrite(greenLED, HIGH);
+    noTone(buzzerPin);
+  }
+  
+  delay(100);
+}`,
+        ai_explanation: 'Hệ thống báo động thông minh sử dụng cảm biến PIR để phát hiện chuyển động. Khi có chuyển động, buzzer phát ra tiếng cảnh báo và LED đỏ sáng. Hệ thống có nút bấm để kích hoạt/tắt. Ứng dụng bảo vệ nhà cửa hiệu quả!'
+    },
+    'light-control': {
+        title: 'Điều Khiển Đèn Tự Động',
+        subtitle: 'Smart Light Control with LDR Sensor',
+        icon: '💡',
+        components: [
+            { name: 'Arduino Nano', desc: 'Compact Controller', icon: '📱', color: 'blue' },
+            { name: 'LDR Sensor', desc: 'Light Sensor', icon: '☀️', color: 'yellow' },
+            { name: 'LED High Brightness', desc: 'Main Light', icon: '💡', color: 'yellow' },
+            { name: 'Resistor 10kΩ', desc: 'Voltage Divider', icon: '⏮️', color: 'orange' },
+            { name: 'Capacitor', desc: 'Filter', icon: '⚫', color: 'gray' },
+            { name: 'Transistor NPN', desc: 'LED Driver', icon: '⚙️', color: 'green' }
+        ],
+        instructions: [
+            'Nối LDR → A0 (Analog Input)',
+            'Nối resistor chia áp 10k',
+            'Nối LED → Pin 6 (PWM)',
+            'Kết nối transistor như mạch',
+            'Calibrate giá trị sáng ngưỡng',
+            'Kiểm tra PWM hoạt động'
+        ],
+        code: `const int ldrPin = A0;
+const int ledPin = 6;  // PWM pin
+
+const int darkThreshold = 300;
+const int brightThreshold = 700;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read light intensity
+  int lightValue = analogRead(ldrPin);
+  
+  // Map sensor value to PWM
+  int pwmValue = map(lightValue, 0, 1023, 255, 0);
+  
+  // Constrain to 0-255
+  pwmValue = constrain(pwmValue, 0, 255);
+  
+  // Write PWM value
+  analogWrite(ledPin, pwmValue);
+  
+  Serial.print("Light: ");
+  Serial.print(lightValue);
+  Serial.print(" → PWM: ");
+  Serial.println(pwmValue);
+  
+  delay(100);
+}`,
+        ai_explanation: 'Cảm biến LDR đo cường độ ánh sáng và điều chỉnh độ sáng LED tự động. Khi trời tối, đèn sáng; khi trời sáng, đèn tối. Sử dụng PWM để điều chỉnh độ sáng mượt mà. Tiết kiệm điện năng hiệu quả!'
+    }
+};
+
+// Functions
+function openProjectModal(projectId) {
+    const project = projectsData[projectId];
+    if(!project) return;
+    
+    // Update header
+    document.getElementById('modalIcon').textContent = project.icon;
+    document.getElementById('modalTitle').textContent = project.title;
+    document.getElementById('modalSubtitle').textContent = project.subtitle;
+    
+    // Update components
+    const componentsList = document.getElementById('componentsList');
+    componentsList.innerHTML = project.components.map(comp => `
+        <div class="component-card glass-panel p-3 rounded-lg">
+            <div class="flex items-center gap-3">
+                <div class="text-3xl">${comp.icon}</div>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-900 text-sm">${comp.name}</p>
+                    <p class="text-xs text-gray-600">${comp.desc}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Update instructions
+    const instructionsList = document.getElementById('instructionsList');
+    instructionsList.innerHTML = project.instructions.map((inst, i) => `
+        <li class="pl-5 relative">
+            <span class="absolute left-0 text-primary font-bold">${i+1}.</span>
+            ${inst}
+        </li>
+    `).join('');
+    
+    // Update code
+    const codeEditor = document.getElementById('codeEditor');
+    codeEditor.innerHTML = project.code.split('\n').map((line, i) => `
+        <div class="code-line">
+            <span class="code-number">${i+1}</span>
+            <span class="flex-1 pl-3">${highlightCode(line)}</span>
+        </div>
+    `).join('');
+    
+    // Update AI explanation
+    document.getElementById('aiExplanation').innerHTML = `<p>${project.ai_explanation}</p>`;
+    
+    // Update simulator
+    updateSimulator(projectId);
+    
+    // Show modal
+    document.getElementById('projectModal').classList.add('active');
+}
+
+function closeProjectModal() {
+    document.getElementById('projectModal').classList.remove('active');
+}
+
+function highlightCode(line) {
+    return line
+        .replace(/\b(const|int|void|if|else|digitalWrite|analogRead|pinMode|delay)\b/g, '<span class="syntax-keyword">$1</span>')
+        .replace(/\"[^\"]*\"/g, match => `<span class="syntax-string">${match}</span>`)
+        .replace(/\/\/.*/g, match => `<span class="syntax-comment">${match}</span>`)
+        .replace(/\d+/g, match => `<span class="syntax-number">${match}</span>`)
+        .replace(/\(/g, '<span class="syntax-function">(</span>')
+}
+
+function updateSimulator(projectId) {
+    const simulatorContent = document.getElementById('simulatorContent');
+    const animatedModel = document.getElementById('animatedModel');
+    
+    if(projectId === 'smart-trash') {
+        simulatorContent.innerHTML = `
+            <svg viewBox="0 0 400 400" width="300" height="300" class="glow-primary">
+                <!-- Breadboard -->
+                <rect x="50" y="250" width="300" height="100" fill="#8B7355" stroke="#654321" stroke-width="2" rx="8"/>
+                <circle cx="100" cy="280" cy="320" r="3" fill="#FFD700"/>
+                <circle cx="150" cy="280" cy="320" r="3" fill="#FFD700"/>
+                
+                <!-- Arduino -->
+                <rect x="100" y="100" width="80" height="120" fill="#0066CC" stroke="#003366" stroke-width="2" rx="4"/>
+                <text x="140" y="160" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Arduino UNO</text>
+                
+                <!-- Ultrasonic Sensor -->
+                <rect x="280" y="120" width="60" height="40" fill="#333" stroke="#000" stroke-width="1" rx="4"/>
+                <circle cx="295" cy="140" r="8" fill="#FFD700"/>
+                <circle cx="325" cy="140" r="8" fill="#FFD700"/>
+                <text x="310" y="175" font-size="10" fill="#333" text-anchor="middle">Sensor</text>
+                
+                <!-- Servo -->
+                <circle cx="50" cy="150" r="25" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                <text x="50" y="155" font-size="12" fill="white" text-anchor="middle" font-weight="bold">Servo</text>
+                
+                <!-- LED -->
+                <circle cx="200" cy="80" r="15" class="led on pulse-animation"/>
+                
+                <!-- Wires -->
+                <path d="M 140 100 L 140 80 L 200 80" stroke="#FF0000" stroke-width="2" fill="none" class="wire-animation"/>
+                <path d="M 180 100 L 180 60 L 310 60 L 310 120" stroke="#000000" stroke-width="2" fill="none" class="wire-animation"/>
+            </svg>
+        `;
+        
+        animatedModel.innerHTML = `
+            <div class="text-center">
+                <div class="text-6xl mb-4 inline-block">🗑️</div>
+                <div class="text-3xl transform origin-top" style="animation: lid-open 2s infinite;">
+                    ═════
+                </div>
+                <p class="text-sm text-gray-600 mt-4">Tay tiếp cận → Nắp mở → LED sáng</p>
+            </div>
+        `;
+    } else if(projectId === 'smart-home') {
+        simulatorContent.innerHTML = `
+            <svg viewBox="0 0 400 400" width="300" height="300" class="glow-primary">
+                <!-- House -->
+                <rect x="80" y="150" width="240" height="180" fill="#D2B48C" stroke="#8B7355" stroke-width="2"/>
+                <polygon points="80,150 200,80 320,150" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                
+                <!-- Door -->
+                <rect x="170" y="250" width="60" height="80" fill="#654321" stroke="#333" stroke-width="1"/>
+                <circle cx="225" cy="290" r="4" fill="#FFD700"/>
+                
+                <!-- Window -->
+                <rect x="120" y="190" width="40" height="40" fill="#87CEEB" stroke="#333" stroke-width="1"/>
+                <line x1="140" y1="190" x2="140" y2="230"/>
+                <line x1="120" y1="210" x2="160" y2="210"/>
+                
+                <!-- PIR Sensor -->
+                <rect x="310" y="200" width="30" height="40" fill="#333" stroke="#000" stroke-width="1" rx="2"/>
+                <text x="325" y="270" font-size="9" fill="#333" text-anchor="middle">PIR</text>
+                
+                <!-- Alarm LED -->
+                <circle cx="200" cy="120" r="12" class="led on glow-animation"/>
+                
+                <!-- Connection lines -->
+                <path d="M 325 240 L 325 280" stroke="#FF0000" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+            </svg>
+        `;
+        
+        animatedModel.innerHTML = `
+            <div class="text-center">
+                <div class="text-6xl mb-4 inline-block">🏠</div>
+                <div class="flex items-center justify-center gap-4">
+                    <div class="text-3xl animate-pulse">🚨</div>
+                    <div class="text-2xl">+</div>
+                    <div class="text-3xl animate-pulse" style="color: red;">🔴</div>
+                </div>
+                <p class="text-sm text-gray-600 mt-4">Phát hiện chuyển động → Báo động</p>
+            </div>
+        `;
+    } else if(projectId === 'light-control') {
+        simulatorContent.innerHTML = `
+            <svg viewBox="0 0 400 400" width="300" height="300" class="glow-primary">
+                <!-- Sun -->
+                <circle cx="320" cy="80" r="30" fill="#FFD700"/>
+                
+                <!-- LDR Sensor -->
+                <circle cx="320" cy="80" r="40" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+                
+                <!-- Light rays -->
+                <line x1="320" y1="40" x2="320" y2="10" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+                <line x1="360" y1="80" x2="390" y2="80" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+                <line x1="280" y1="80" x2="250" y2="80" stroke="#FFD700" stroke-width="2" opacity="0.7"/>
+                
+                <!-- LDR Component -->
+                <rect x="300" y="130" width="40" height="30" fill="#333" stroke="#000" stroke-width="1" rx="3"/>
+                <text x="320" y="180" font-size="10" fill="#333" text-anchor="middle">LDR</text>
+                
+                <!-- LED bulb large -->
+                <circle cx="100" cy="200" r="40" fill="#FFFF00" stroke="#FFD700" stroke-width="2"/>
+                <path d="M 85 240 L 85 250 M 100 240 L 100 250 M 115 240 L 115 250" stroke="#888" stroke-width="2"/>
+                
+                <!-- Connection lines -->
+                <path d="M 300 145 L 150 220" stroke="#FF0000" stroke-width="2" fill="none" class="wire-animation"/>
+                
+                <!-- Brightness indicator -->
+                <text x="100" y="300" font-size="12" fill="#333" text-anchor="middle" font-weight="bold">Brightness: 80%</text>
+            </svg>
+        `;
+        
+        animatedModel.innerHTML = `
+            <div class="text-center">
+                <div class="text-6xl mb-4 inline-block transition-all" id="ledBrightness" style="opacity: 0.8;">💡</div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                    <div class="bg-yellow-400 h-2 rounded-full transition-all" style="width: 80%;"></div>
+                </div>
+                <p class="text-sm text-gray-600">PWM Brightness Control</p>
+            </div>
+        `;
+    }
+}
+
+function runSimulation() {
+    alert('✅ Simulation Started!\n\n🔄 Code is running on virtual hardware\n\n👉 Watch the animations on the circuit!');
+}
+
+function copyCode() {
+    const code = document.getElementById('codeEditor').innerText;
+    navigator.clipboard.writeText(code);
+    alert('✅ Code copied to clipboard!');
+}
+
+function askAI() {
+    alert('💬 AI Assistant: Tell me what you want to know about this project!');
+}
+
+// Close modal when clicking outside
+document.getElementById('projectModal').addEventListener('click', (e) => {
+    if(e.target === document.getElementById('projectModal')) {
+        closeProjectModal();
+    }
+});
+
+// Escape key to close
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+        closeProjectModal();
+    }
+});
+</script>
+
+</body>
+</html>

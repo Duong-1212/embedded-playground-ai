@@ -1,0 +1,281 @@
+<!-- Code Lab (White Theme) - Embedded Playground AI -->
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Phòng Lập Trình - Embedded Playground AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Adjusted Syntax for Light Theme */
+        .syntax-keyword { color: #7c3aed; font-weight: 600; }
+        .syntax-string { color: #059669; }
+        .syntax-comment { color: #6b7280; font-style: italic; opacity: 0.8; }
+        .syntax-function { color: #2563eb; }
+        .syntax-number { color: #db2777; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+        
+        .code-grid {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .active-glow {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#2563eb",
+                      "tertiary-container": "#fce7f3",
+                      "surface-container": "#f9fafb",
+                      "inverse-on-surface": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#ffffff",
+                      "secondary-fixed-dim": "#7c3aed",
+                      "on-secondary-fixed": "#2e1065",
+                      "on-secondary-container": "#4c1d95",
+                      "on-tertiary-container": "#701a75",
+                      "on-background": "#111827",
+                      "outline": "#9ca3af",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#1f2937",
+                      "secondary-container": "#ede9fe",
+                      "surface-container-low": "#f3f4f6",
+                      "on-secondary-fixed-variant": "#5b21b6",
+                      "on-primary-fixed-variant": "#1e40af",
+                      "secondary": "#7c3aed",
+                      "on-tertiary-fixed-variant": "#86198f",
+                      "tertiary-fixed-dim": "#db2777",
+                      "surface-container-highest": "#e5e7eb",
+                      "primary-fixed-dim": "#2563eb",
+                      "primary-container": "#dbeafe",
+                      "on-error-container": "#7f1d1d",
+                      "background": "#ffffff",
+                      "tertiary-fixed": "#fdf2f8",
+                      "on-surface-variant": "#4b5563",
+                      "on-error": "#ffffff",
+                      "error": "#ef4444",
+                      "surface-container-high": "#f9fafb",
+                      "primary-fixed": "#eff6ff",
+                      "surface": "#ffffff",
+                      "primary": "#2563eb",
+                      "outline-variant": "#d1d5db",
+                      "inverse-surface": "#111827",
+                      "on-primary-container": "#1e3a8a",
+                      "surface-variant": "#f3f4f6",
+                      "on-primary-fixed": "#1e3a8a",
+                      "tertiary": "#db2777",
+                      "error-container": "#fee2e2",
+                      "on-tertiary-fixed": "#701a75",
+                      "surface-dim": "#f3f4f6",
+                      "inverse-primary": "#93c5fd",
+                      "secondary-fixed": "#f5f3ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "md": "24px",
+                      "gutter": "20px",
+                      "base": "8px",
+                      "sidebar-width": "280px",
+                      "lg": "48px",
+                      "xl": "80px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "label-md": ["Space Grotesk"],
+                      "display-lg": ["Orbitron"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Orbitron"],
+                      "headline-lg": ["Orbitron"],
+                      "code-sm": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "code-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-white/70 backdrop-blur-xl border-b border-gray-100 backdrop-saturate-150 shadow-sm">
+    <div class="flex items-center gap-4">
+        <a href="index.html" class="text-primary hover:opacity-80 transition-opacity">
+            <button class="material-symbols-outlined text-primary hover:bg-gray-100 transition-colors duration-300 p-2 rounded-full active:scale-95" data-icon="arrow_back">arrow_back</button>
+        </a>
+        <h1 class="text-headline-md font-headline-md font-bold tracking-wider text-on-background">Phòng Code</h1>
+    </div>
+    <div class="flex items-center gap-2">
+        <button class="material-symbols-outlined text-primary hover:bg-gray-100 transition-colors duration-300 p-2 rounded-full active:scale-95" data-icon="smart_toy">smart_toy</button>
+    </div>
+</header>
+
+<!-- Main Content: Code Editor Canvas -->
+<main class="flex-grow pt-16 pb-24 overflow-hidden relative flex flex-col code-grid">
+    <!-- Search/Replace Bar (Light glass) -->
+    <div class="mx-gutter mt-4 glass-panel rounded-xl flex items-center p-2 gap-2">
+        <div class="flex-grow flex items-center bg-gray-50/50 rounded-lg px-3 py-1.5 border border-gray-100">
+            <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+            <input class="bg-transparent border-none text-label-md font-label-md focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 w-full" placeholder="Tìm kiếm..." type="text"/>
+        </div>
+        <div class="w-px h-6 bg-gray-200"></div>
+        <div class="flex-grow flex items-center bg-gray-50/50 rounded-lg px-3 py-1.5 border border-gray-100">
+            <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="find_replace">find_replace</span>
+            <input class="bg-transparent border-none text-label-md font-label-md focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 w-full" placeholder="Thay thế..." type="text"/>
+        </div>
+        <button class="bg-secondary-container text-secondary p-1.5 rounded-lg hover:bg-secondary-container/80 transition-all">
+            <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+        </button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="mx-gutter mt-4 flex items-center justify-between">
+        <div class="flex gap-2">
+            <span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-label-md text-label-md flex items-center gap-1.5 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                main.py
+            </span>
+            <span class="px-3 py-1 rounded-full bg-white border border-gray-200 text-on-surface-variant font-label-md text-label-md shadow-sm">
+                utils.cpp
+            </span>
+        </div>
+        <div class="flex gap-2">
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-on-primary shadow-lg shadow-primary/20 active:scale-95 transition-all">
+                <span class="material-symbols-outlined" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Code Area -->
+    <div class="flex-grow mt-4 overflow-auto px-gutter font-code-sm text-code-sm bg-white/40 backdrop-blur-sm">
+        <div class="flex min-w-full">
+            <!-- Line Numbers -->
+            <div class="pr-4 py-4 text-right text-outline/60 border-r border-gray-100 select-none bg-gray-50/30">
+1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16
+            </div>
+            <!-- Editor Content -->
+            <div class="p-4 flex-grow whitespace-pre leading-relaxed text-on-surface font-medium">
+<span class="syntax-keyword">import</span> machine
+<span class="syntax-keyword">import</span> time
+
+<span class="syntax-comment"># Khởi tạo LED trên board</span>
+led = machine.Pin(<span class="syntax-number">25</span>, machine.Pin.OUT)
+
+<span class="syntax-keyword">def</span> <span class="syntax-function">blink_sequence</span>(cycles):
+    <span class="syntax-keyword">for</span> i <span class="syntax-keyword">in</span> <span class="syntax-function">range</span>(cycles):
+        <span class="syntax-function">print</span>(<span class="syntax-string">f"Chu kỳ {i+1} hoạt động"</span>)
+        led.value(<span class="syntax-number">1</span>)
+        time.sleep(<span class="syntax-number">0.1</span>)
+        led.value(<span class="syntax-number">0</span>)
+        time.sleep(<span class="syntax-number">0.1</span>)
+
+<span class="syntax-comment"># Vòng lặp thực thi</span>
+<span class="syntax-function">blink_sequence</span>(<span class="syntax-number">10</span>)
+<span class="syntax-function">print</span>(<span class="syntax-string">"Trình tự hoàn thành."</span>)
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Terminal Output -->
+    <div class="h-40 glass-panel rounded-t-3xl border-b-0 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex flex-col">
+        <div class="px-gutter py-2 flex items-center justify-between border-b border-gray-100">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm text-primary" data-icon="terminal">terminal</span>
+                <span class="font-label-md text-label-md text-on-surface">Bảng Điều Khiển Đầu Ra</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="material-symbols-outlined text-sm text-on-surface-variant hover:text-error cursor-pointer transition-colors" data-icon="delete">delete</span>
+                <span class="material-symbols-outlined text-sm text-on-surface-variant cursor-pointer" data-icon="expand_less">expand_less</span>
+            </div>
+        </div>
+        <div class="flex-grow p-4 overflow-auto font-code-sm text-code-sm text-on-surface/80">
+            <div class="flex gap-2 mb-1">
+                <span class="text-secondary font-bold">&gt;&gt;&gt;</span>
+                <span>Bắt đầu trình thông dịch MicroPython...</span>
+            </div>
+            <div class="flex gap-2 mb-1">
+                <span class="text-secondary font-bold">&gt;&gt;&gt;</span>
+                <span>Chu kỳ 1 hoạt động</span>
+            </div>
+            <div class="flex gap-2 mb-1">
+                <span class="text-secondary font-bold">&gt;&gt;&gt;</span>
+                <span>Chu kỳ 2 hoạt động</span>
+            </div>
+            <div class="flex gap-2 mb-1">
+                <span class="text-secondary font-bold">&gt;&gt;&gt;</span>
+                <span class="text-primary font-medium">Chạy main.py... [Tiến trình: 4412]</span>
+            </div>
+            <div class="flex gap-2 animate-pulse">
+                <span class="text-secondary font-bold">&gt;&gt;&gt;</span>
+                <span class="w-2 h-4 bg-primary/30"></span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-white/80 backdrop-blur-2xl border-t border-gray-100 backdrop-saturate-180 shadow-[0_-4px_24px_rgba(0,0,0,0.04)] rounded-t-xl">
+    <!-- Workspace (Active) -->
+    <a href="index.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300" href="#">
+        <span class="material-symbols-outlined" data-icon="memory">memory</span>
+        <span class="text-label-md font-label-md">Trang Chủ</span>
+    </a>
+    <!-- Projects -->
+    <a href="ai-anatomy.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300" href="#">
+        <span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+        <span class="text-label-md font-label-md">Dự Án</span>
+    </a>
+    <!-- Learn -->
+    <a href="code-lab.html" class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-4 py-1 shadow-md active:scale-90 transition-all duration-300" href="#">
+        <span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+        <span class="text-label-md font-label-md">Code</span>
+    </a>
+    <!-- Profile -->
+    <a href="components.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300" href="#">
+        <span class="material-symbols-outlined" data-icon="person">person</span>
+        <span class="text-label-md font-label-md">Linh Kiện</span>
+    </a>
+</nav>
+    <script src="ai-chat.js"></script>
+</body>
+</html>
